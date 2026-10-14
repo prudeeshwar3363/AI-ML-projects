@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffictelligence | Traffic Analytics</title>
+
+    <style>
+        :root {
+            --bg: #081321;
+            --panel: #101f32;
+            --text: #edf5ff;
+            --muted: #9aadc3;
+            --accent: #25d9c3;
+            --border: #263b51;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at top right, #123e50 0, transparent 42%),
+                var(--bg);
+            color: var(--text);
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+        }
+
+        .navbar {
+            padding: 20px 7%;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .status {
+            color: var(--accent);
+            font-size: 12px;
+            border: 1px solid #22665f;
+            background: #10332f;
+            padding: 7px 11px;
+            border-radius: 20px;
+        }
+
+        main {
+            width: min(1050px, 90%);
+            margin: 48px auto;
+        }
+
+        .hero {
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: clamp(30px, 5vw, 46px);
+            line-height: 1.15;
+            margin: 12px 0;
+            letter-spacing: -1.5px;
+        }
+
+        .hero p,
+        .description {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .card {
+            background: rgba(16, 31, 50, 0.96);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: clamp(20px, 4vw, 34px);
+            box-shadow: 0 20px 60px #00000025;
+        }
+
+        .card-heading {
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .section-label {
+            grid-column: 1 / -1;
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding-top: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        label {
+            font-size: 13px;
+            color: #d9e7f5;
+            font-weight: 700;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 46px;
+            padding: 12px;
+            background: #0a1828;
+            color: var(--text);
+            border: 1px solid #30475e;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
+
+        .hint {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        button {
+            width: 100%;
+            min-height: 50px;
+            margin-top: 28px;
+            border: 0;
+            border-radius: 10px;
+            background: var(--accent);
+            color: #05201f;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.15s, background 0.15s;
+        }
+
+        button:hover {
+            background: #67f0df;
+            transform: translateY(-1px);
+        }
+
+        .result {
+            margin-top: 28px;
+            padding: 30px 20px;
+            border: 1px solid #227b70;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #10352f, #102c3c);
+            text-align: center;
+            overflow-wrap: anywhere;
+            animation: reveal 0.4s ease-out;
+        }
+
+        .result-label {
+            color: #a9d9d2;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .result-icon {
+            font-size: 38px;
+            margin-top: 16px;
+        }
+
+        .result-value {
+            color: var(--accent);
+            font-size: clamp(30px, 5vw, 44px);
+            font-weight: 800;
+            margin: 12px 0;
+        }
+
+        .result-unit {
+            color: #d0e7e5;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: -5px;
+        }
+
+        .result-note {
+            color: #b4c9d6;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 12px;
+        }
+
+        .error {
+            background: #3a2028;
+            border-color: #85404a;
+        }
+
+        .error .result-value {
+            color: #ffb7c1;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        footer {
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+            padding: 30px 10px;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 17px 5%;
+            }
+
+            main {
+                width: 92%;
+                margin: 32px auto;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-label {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="brand">Traffic<span>telligence</span></div>
+        <div class="status">● Prediction System</div>
+    </nav>
+
+    <main>
+        <header class="hero">
+            <div class="eyebrow">Machine Learning · Traffic Analytics</div>
+            <h1>Understand traffic.<br>Predict what comes next.</h1>
+            <p>
+                Estimate traffic volume using weather conditions,
+                holidays, and date and time information.
+            </p>
+        </header>
+
+        <section class="card">
+            <div class="card-heading">
+                <h2>Traffic volume estimator</h2>
+                <div class="description">
+                    Enter the conditions below to generate an estimate.
+                </div>
+            </div>
+
+            <form action="{{ url_for('predict') }}" method="post">
+                <div class="form-grid">
+                    <div class="section-label">Weather conditions</div>
+
+                    <div class="field">
+                        <label for="weather">Weather</label>
+                        <select id="weather" name="weather" required>
+                            <option value="Clouds">Clouds</option>
+                            <option value="Clear">Clear</option>
+                            <option value="Rain">Rain</option>
+                            <option value="Drizzle">Drizzle</option>
+                            <option value="Mist">Mist</option>
+                            <option value="Haze">Haze</option>
+                            <option value="Fog">Fog</option>
+                            <option value="Thunderstorm">Thunderstorm</option>
+                            <option value="Snow">Snow</option>
+                            <option value="Squall">Squall</option>
+                            <option value="Smoke">Smoke</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="holiday">Holiday</label>
+                        <select id="holiday" name="holiday" required>
+                            <option value="None">No Holiday</option>
+                            <option value="Columbus Day">Columbus Day</option>
+                            <option value="Veterans Day">Veterans Day</option>
+                            <option value="Thanksgiving Day">Thanksgiving Day</option>
+                            <option value="Christmas Day">Christmas Day</option>
+                            <option value="New Years Day">New Year's Day</option>
+                            <option value="Washingtons Birthday">Washington's Birthday</option>
+                            <option value="Memorial Day">Memorial Day</option>
+                            <option value="Independence Day">Independence Day</option>
+                            <option value="State Fair">State Fair</option>
+                            <option value="Labor Day">Labor Day</option>
+                            <option value="Martin Luther King Jr Day">Martin Luther King Jr. Day</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="temp">Temperature (Kelvin)</label>
+                        <input
+                            id="temp"
+                            name="temp"
+                            type="number"
+                            step="any"
+                            min="0"
+                            max="350"
+                            value="288.28"
+                            required
+                        >
+                        <span class="hint">Dataset temperature is measured in Kelvin.</span>
+                    </div>
+
+                    <div class="field">
+                        <label for="rain">Rain (dataset value)</label>
+                        <input
+                            id="rain"
+                            name="rain"
+                            type="number"
+                            step="any"
+                            min="0"
+                            value="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="snow">Snow (dataset value)</label>
+                        <input
+                            id="snow"
+                            name="snow"
+                            type="number"
+                            step="any"
+                            min="0"
+                            value="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="section-label">Date and time</div>
+
+                    <div class="field">
+                        <label for="year">Year</label>
+                        <input
+                            id="year"
+                            name="year"
+                            type="number"
+                            min="2012"
+                            max="2022"
+                            value="2012"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="month">Month</label>
+                        <input
+                            id="month"
+                            name="month"
+                            type="number"
+                            min="1"
+                            max="12"
+                            value="2"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="day">Day</label>
+                        <input
+                            id="day"
+                            name="day"
+                            type="number"
+                            min="1"
+                            max="31"
+                            value="10"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="hours">Hour (24-hour format)</label>
+                        <input
+                            id="hours"
+                            name="hours"
+                            type="number"
+                            min="0"
+                            max="23"
+                            value="9"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="minutes">Minutes</label>
+                        <input
+                            id="minutes"
+                            name="minutes"
+                            type="number"
+                            min="0"
+                            max="59"
+                            value="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="seconds">Seconds</label>
+                        <input
+                            id="seconds"
+                            name="seconds"
+                            type="number"
+                            min="0"
+                            max="59"
+                            value="0"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit">Generate traffic estimate →</button>
+            </form>
+
+            {% if prediction_text %}
+                <div class="result {% if prediction_error %}error{% endif %}">
+                    <div class="result-label">
+                        {% if prediction_error %}
+                            Input validation
+                        {% else %}
+                            Your traffic estimate
+                        {% endif %}
+                    </div>
+
+                    <div class="result-icon">🚦</div>
+
+                    <p class="result-value">{{ prediction_text }}</p>
+
+                    {% if not prediction_error %}
+                        <div class="result-unit">vehicles</div>
+                        <div class="result-note">
+                            Estimated vehicles for the selected conditions.
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </section>
+
+        <footer>
+            Traffictelligence · XGBoost-powered traffic volume estimation
+        </footer>
+    </main>
+</body>
+</html>
