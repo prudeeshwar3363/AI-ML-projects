@@ -2,58 +2,73 @@
 
 ## 📌 Project Overview
 
-**Traffictelligence** is a machine learning project that predicts traffic volume based on weather conditions, holidays, and date-time information. It uses historical traffic data to estimate the number of vehicles under different conditions.
+**Traffictelligence** is a machine learning project designed to estimate traffic volume using historical traffic data, weather conditions, holidays, and date-time information.
 
-The project includes a trained machine learning model and a web application built with Flask, allowing users to enter input values and receive traffic volume predictions through a simple interface.
+The project compares multiple regression algorithms and provides a web application built with Flask, allowing users to enter environmental and date-time details and receive an estimated traffic volume.
+
+**Note:** The application generates model-based predictions. It does not currently use a live traffic data feed.
 
 ## 🎯 Objectives
 
-- Predict traffic volume using historical data.
+- Estimate traffic volume using historical data.
 - Analyze the relationship between weather conditions and traffic patterns.
-- Compare multiple machine learning algorithms.
+- Compare machine learning regression algorithms.
+- Evaluate model performance using regression metrics.
 - Build a web application for interactive predictions.
 - Demonstrate an end-to-end machine learning workflow.
 
 ## ✨ Features
 
-- Traffic volume prediction using machine learning.
-- Weather and holiday-based input parameters.
-- Date and time feature inputs.
-- Interactive web interface built with Flask.
-- Input validation for numeric values, dates, and time.
+- Traffic volume estimation using machine learning.
+- Weather and holiday-based inputs.
+- Date and time inputs.
+- Interactive Flask web application.
+- Input validation for numerical values, dates, and time.
 - Saved machine learning pipeline for predictions.
-- Responsive dark-themed user interface.
+- Responsive HTML and CSS interface.
 
 ## 🛠️ Technologies Used
 
-- **Programming Language:** Python
-- **Machine Learning:** XGBoost, Random Forest, Decision Tree, Support Vector Regression, Linear Regression
-- **Data Processing:** Pandas, NumPy
-- **Machine Learning Tools:** Scikit-learn, XGBoost
-- **Web Framework:** Flask
-- **Model Persistence:** Joblib
-- **Frontend:** HTML, CSS
+| Technology | Purpose |
+|---|---|
+| Python | Programming language |
+| Pandas | Data manipulation |
+| NumPy | Numerical operations |
+| Scikit-learn | Preprocessing, model evaluation, and machine learning |
+| XGBoost | Gradient boosting regression |
+| Flask | Web application backend |
+| Joblib | Saving and loading the model |
+| HTML and CSS | User interface |
+| Jupyter Notebook | Data analysis and model development |
 
 ## 📂 Project Structure
 
 ```text
-Traffictelligence/
+Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/
+├── README.md
+├── Document/
+│   ├── Traffictelligence.docx
+│   └── readme.md
 ├── Project Files/
-│   ├── app.py
 │   ├── Code.ipynb
+│   ├── app.py
+│   ├── readme.md
 │   ├── traffic volume.csv
+│   ├── traffictelligence_best_model.joblib
 │   ├── traffictelligence_final_model.joblib
 │   └── templates/
-│       └── index.html
-├── README.md
-└── requirements.txt
+│       ├── index.html
+│       └── readme.md
+└── Video Demonstration/
+    ├── video demo(1)(1).mp4
+    └── readme.md
 ```
-
-*Note: The structure above represents the expected application layout. Adjust it to match the actual files in your repository.*
 
 ## 📊 Dataset
 
-The project uses a historical traffic volume dataset containing the following features:
+The project uses a historical traffic volume dataset located at `Project Files/traffic volume.csv`.
+
+The dataset contains the following columns:
 
 | Feature | Description |
 |---|---|
@@ -62,15 +77,25 @@ The project uses a historical traffic volume dataset containing the following fe
 | `rain` | Rainfall measurement |
 | `snow` | Snowfall measurement |
 | `weather` | Weather condition |
-| `date` | Original date information |
-| `Time` | Original time information |
-| `traffic_volume` | Target variable: observed traffic volume |
+| `date` | Date information |
+| `Time` | Time information |
+| `traffic_volume` | Observed traffic volume and prediction target |
 
-Date and time information are processed into features such as year, month, day, hour, minute, and second.
+Date and time information are processed into features such as year, month, day, hours, minutes, and seconds.
 
 ## 🤖 Machine Learning Models
 
-The project compares multiple regression algorithms to identify a suitable model for traffic volume estimation.
+The project compares multiple regression algorithms:
+
+- XGBoost Regressor
+- Random Forest Regressor
+- Decision Tree Regressor
+- Support Vector Regression (SVR)
+- Linear Regression
+
+### Model Comparison
+
+The recorded model evaluation results are:
 
 | Model | R² Score |
 |---|---:|
@@ -82,7 +107,13 @@ The project compares multiple regression algorithms to identify a suitable model
 
 **Selected model:** XGBoost Regressor.
 
-The original XGBoost model achieved an R² score of approximately **0.82** on the evaluation test set. These results reflect the project's recorded evaluation and may vary with different data splits or configurations.
+The recorded XGBoost evaluation results are:
+
+- **R² Score:** 0.8222
+- **Mean Absolute Error (MAE):** 553.72
+- **Root Mean Squared Error (RMSE):** 838.50
+
+These metrics describe the project's recorded test-set evaluation. Performance may vary with different datasets, test splits, and deployment conditions.
 
 ## ⚙️ Installation and Setup
 
@@ -94,11 +125,13 @@ git clone https://github.com/prudeeshwar3363/AI-ML-projects.git
 
 ### 2. Navigate to the project directory
 
-```bash
-cd AI-ML-projects/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Project\ Files
+Open a terminal and run:
+
+```powershell
+cd "AI-ML-projects\Traffictelligence-Advanced-volume-estimation-using-machine-learning-main\Project Files"
 ```
 
-Adjust the directory name if your local folder differs.
+Adjust the path if your local folder structure differs.
 
 ### 3. Create a virtual environment (recommended)
 
@@ -106,7 +139,7 @@ Adjust the directory name if your local folder differs.
 python -m venv venv
 ```
 
-Activate it on Windows:
+Activate it on Windows PowerShell:
 
 ```powershell
 .\venv\Scripts\Activate.ps1
@@ -114,82 +147,92 @@ Activate it on Windows:
 
 ### 4. Install dependencies
 
-Create a `requirements.txt` file containing the packages required by your application, then run:
+The project folder currently does not contain a `requirements.txt` file. Install the main application dependencies using:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install Flask pandas numpy scikit-learn xgboost joblib
 ```
 
-Typical dependencies include:
+For reproducible results, use package versions compatible with those used to train and save the model.
 
-```text
-Flask
-pandas
-numpy
-scikit-learn
-xgboost
-joblib
-```
+### 5. Run the Flask application
 
-Use compatible package versions for the environment in which the model was trained and tested.
+Ensure that the following files are available in the `Project Files` directory:
 
-### 5. Run the application
+- `app.py`
+- `traffictelligence_final_model.joblib`
+- `templates/index.html`
 
-Ensure that `app.py`, `traffictelligence_final_model.joblib`, and the `templates/index.html` file are in the expected locations.
+Start the application:
 
 ```bash
 python app.py
 ```
 
-### 6. Open the web application
+### 6. Open the application
 
-Open the following address in your browser:
+Open your browser and visit:
 
-```text
-http://127.0.0.1:5000
-```
+**http://127.0.0.1:5000**
 
-Enter the weather, holiday, date, and time details, then submit the form to view the estimated traffic volume.
+Enter the required weather, holiday, date, and time values, then submit the form to view the estimated traffic volume.
 
 ## 🔄 How It Works
 
 1. **Data collection:** Load the historical traffic volume dataset.
-2. **Data preprocessing:** Prepare categorical, numerical, date, and time features.
-3. **Model training:** Train and compare regression models.
-4. **Model evaluation:** Evaluate predictions using regression metrics.
-5. **Model saving:** Save the selected model pipeline using Joblib.
-6. **User input:** Collect prediction inputs through the Flask web interface.
-7. **Prediction:** Process the inputs through the saved pipeline.
-8. **Display:** Show the estimated number of vehicles on the webpage.
+2. **Data preprocessing:** Prepare numerical and categorical features.
+3. **Feature engineering:** Extract useful components from date and time information.
+4. **Model training:** Train and compare regression algorithms.
+5. **Model evaluation:** Evaluate performance using R², MAE, and RMSE.
+6. **Model persistence:** Save the selected model pipeline using Joblib.
+7. **User input:** Collect prediction details through the Flask interface.
+8. **Prediction:** Pass the inputs through the saved preprocessing and model pipeline.
+9. **Result display:** Display the estimated traffic volume on the webpage.
 
 ## 📈 Evaluation Metrics
 
-The project uses regression evaluation metrics, including:
+### R² Score
 
-- **R² Score:** Measures how much variation in the target is explained by the model.
-- **MAE (Mean Absolute Error):** Measures the average absolute difference between actual and predicted traffic volume.
-- **RMSE (Root Mean Squared Error):** Penalizes larger prediction errors more strongly.
+Measures how much variation in the target variable is explained by the regression model.
 
-Recorded results for the original XGBoost model:
+### Mean Absolute Error (MAE)
 
-- **R² Score:** 0.8222
-- **MAE:** 553.72
-- **RMSE:** 838.50
+Measures the average absolute difference between actual and predicted traffic volume.
 
-These metrics are dataset- and test-split-dependent and should not be interpreted as guaranteed real-world accuracy.
+### Root Mean Squared Error (RMSE)
+
+Measures prediction error while penalizing larger errors more strongly.
+
+### Recorded XGBoost Results
+
+| Metric | Value |
+|---|---:|
+| R² Score | 0.8222 |
+| MAE | 553.72 |
+| RMSE | 838.50 |
+
+## 🎥 Project Resources
+
+- [View the project repository](https://github.com/prudeeshwar3363/AI-ML-projects/tree/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main)
+- [View the Jupyter Notebook](https://github.com/prudeeshwar3363/AI-ML-projects/blob/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Project%20Files/Code.ipynb)
+- [View the Flask application](https://github.com/prudeeshwar3363/AI-ML-projects/blob/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Project%20Files/app.py)
+- [View the web interface](https://github.com/prudeeshwar3363/AI-ML-projects/blob/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Project%20Files/templates/index.html)
+- [View the project report](https://github.com/prudeeshwar3363/AI-ML-projects/blob/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Document/Traffictelligence.docx)
+- [View the video demonstration](https://github.com/prudeeshwar3363/AI-ML-projects/blob/main/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main/Video%20Demonstration/video%20demo%281%29%281%29.mp4)
 
 ## 🚀 Future Improvements
 
-- Add interactive traffic trend visualizations.
+- Add traffic trend visualizations.
 - Improve model performance through further experimentation.
-- Add automated tests for prediction inputs and model outputs.
-- Deploy the application to a cloud platform.
-- Add historical versus predicted traffic comparisons.
-- Extend the system with real-time traffic data where available.
+- Add automated tests for application inputs and predictions.
+- Deploy the application to a cloud hosting platform.
+- Compare actual and predicted traffic volume.
+- Integrate a reliable real-time traffic data source.
+- Add a `requirements.txt` file with tested dependency versions.
 
 ## 👨‍💻 Author
 
 **Prudveeswar**
 
-- GitHub: [@prudeeshwar3363](https://github.com/prudeeshwar3363)
-- Project Repository: [AI-ML-projects](https://github.com/prudeeshwar3363/AI-ML-projects)
+- **GitHub:** [@prudeeshwar3363](https://github.com/prudeeshwar3363)
+- **Repository:** [AI-ML-projects/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main](https://github.com/prudeeshwar3363/AI-ML-projects/Traffictelligence-Advanced-volume-estimation-using-machine-learning-main)
